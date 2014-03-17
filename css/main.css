@@ -1,0 +1,111 @@
+*{
+    margin: 0;
+    padding:0;
+}
+
+#wrap{
+    background: url("../images/bg.png");
+}
+
+.betaFlag{
+    text-align: center;
+    width:200px;
+    height:25px;
+    position: fixed;
+    top:50px;
+    left:-40px;
+    background:#CCC;
+    color: #B00;
+    z-index: 3000;
+    transform:rotate(-45deg);
+    -ms-transform:rotate(-45deg);
+    -webkit-transform:rotate(-45deg);
+    border-bottom: 2px solid #666;
+    border-top: 2px solid #DDD;
+}
+
+.clearData{
+    cursor: pointer;
+}
+
+.clickMe{
+    width: 64px;
+    cursor: default;
+    opacity: 0.6;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.clickMe:hover{
+    opacity: 0.75;
+}
+
+.clickMe:active{
+    opacity: 0.9;
+}
+
+li{
+    list-style: none;
+}
+
+.autoClickerList{
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.autoClickerList > .row{
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.autoClickerList > .row:hover{
+    background:#f0f0f0;
+    cursor: pointer;
+}
+hr{
+    margin:0;
+}
+
+.autoClickerList .spacer{
+    padding: 5px 0 ;
+}
+
+.autoClicker{
+    opacity: 0.3;
+}
+
+.autoClicker.available{
+    opacity: 1;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+
+html,
+body {
+    height: 100%;
+    /* The html and body elements cannot have any padding or margin. */
+}
+
+/* Wrapper for page content to push down footer */
+#wrap {
+    min-height: 100%;
+    height: auto;
+    /* Negative indent footer by its height */
+    margin: 0 auto -60px;
+    /* Pad bottom by footer height */
+    padding: 0 0 60px;
+}
+
+/* Set the fixed height of the footer here */
+#footer {
+    height: 60px;
+    background-color: #f5f5f5;
+}
