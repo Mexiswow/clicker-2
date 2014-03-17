@@ -1,18 +1,23 @@
 <?
-
-    session_start();
-    
+    if(session_id() == ''){
+        session_start();
+    }
     error_reporting(E_ALL);
     ini_set("display_errors", 1);
 
+    
     $jsFiles = glob("js/*.js");
     $cssFiles = glob("css/*.css");
     $incFiles = glob("includes/*.php");
-    
+    $classFiles = glob("classes/*.php");
     foreach($incFiles as $inc){
-        include($inc);
+        include_once($inc);
+    }
+    foreach($classFiles as $class){
+        require_once($class);
     }
     
+    $msgMod = new message;
 ?>
 <!DOCTYPE html>
 <html>
@@ -33,15 +38,19 @@
             <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
                 <div class="container">
                     <div class="navbar-header">
-                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
+                        
                         <a class="navbar-brand" href="#">munsClicker</a>
                     </div>
-                    <div class="navbar-collapse collapse">
+                    <div class="navbar-right">
+                        <?if(isset($_SESSION["user"])):?>
+                        <ul class="nav navbar-form" style="color:white;">
+                            <div class="form-group">
+                                welcome <?=$_SESSION["user"]["uname"]?>
+                            </div>
+                            <div class="form-group"> </div>
+                            <button class="btn btn-danger" id="navLogout">Log out</button>
+                        </ul>
+                        <?else:?>
                         <form class="navbar-form navbar-right" method="post" action="posts/login.php" >
                             <div class="form-group">
                                 <input type="text" placeholder="Username" class="form-control" name="uname">
@@ -52,10 +61,27 @@
                             <button type="submit" class="btn btn-success" name="submit" value="login">Sign in</button>
                             <button type="submit" class="btn btn-info" name="submit" value="register">Register</button>
                         </form>
+                        <?endif;?>
                     </div><!--/.navbar-collapse -->
                 </div>
+                <?
+                    $msgs=$msgMod->getMsgs();
+                    foreach($msgs as $msg):
+                    ?>
+                        <div class="row">
+                            <div class="col-md-2"></div>
+                            <div class="alert alert-<?=$msg["type"]?> alert-dismissable col-md-8 msg">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true" data-id="<?=$msg['id']?>">&times;</button>
+                                <?=$msg["msg"]?>
+                            </div>
+                            <div class="col-md-2"></div>
+                        </div>
+                    <?
+                    endforeach;
+                ?>
+            
             </div>
-
+            
             <div class="jumbotron">
                 <div class="container">
                     <div class="row">
@@ -89,7 +115,7 @@
                                             <ul>
                                                 <li class="curClicks">Current clicks: <span class="count">0</span></li>
                                                 <li class="curCPS">Current clicks/second:<span class="count">0</span></li>
-                                                <li></li>
+                                                <li>&nbsp;</li>
                                                 <li class="statusInfo"></li>
                                             </ul>
                                         </div>

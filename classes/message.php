@@ -9,13 +9,19 @@ class message {
     
     public function __construct() {
         
-        session_start();
+        if(session_id() == ''){
+            session_start();
+        }
         
         return $this;
     }
     
     public function setMsg($msg,$type = null,$disp = 1){
+        if(!isset($_SESSION["msg"])){
+            $_SESSION["msg"] = array();
+        }
         $_SESSION["msg"][] = array(
+            "id" => count($_SESSION["msg"]),
             "msg" => $msg,
             "type" => $type,
             "disp" => $disp
@@ -31,7 +37,9 @@ class message {
                 }
             }
         }else{
-            $arr = $_SESSION["msg"];
+            if(isset($_SESSION["msg"])){
+                $arr = $_SESSION["msg"];
+            }
         }
         $ret = array();
         foreach($arr as $msg){
@@ -40,6 +48,17 @@ class message {
             }
         }
         return $ret;
+    }
+    
+    public function delMsg($id = null){
+        $msgs = array();
+        foreach($_SESSION["msg"] as $k => $v){
+            if($msg["id"] == $id){
+                $msgs[]=$msg['msg'];
+                unset($_SESSION["msg"][$k]);
+            }
+        }
+        return $msgs;
     }
     
 }

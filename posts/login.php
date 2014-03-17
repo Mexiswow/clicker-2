@@ -1,12 +1,18 @@
 <?php
 
-session_start();
+    if(session_id() == ''){
+        session_start();
+    }
 
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
 
+
 include_once '../classes/db.php';
 include_once '../classes/logMeIn.php';
+require_once '../classes/message.php';
+
+$msgMod = new message;
 
 if($_POST){
     foreach($_POST as $k => $v){
@@ -16,13 +22,17 @@ if($_POST){
     }
     
     $loginHandler = new logMeIn();
+    $func = htmlentities($_POST["submit"]);
     $user = htmlentities($_POST['uname']);
     $pass = htmlentities($_POST['passwd']);
-    $loggedIn = $loginHandler->login($user,$pass);
+    $loggedIn = $loginHandler->run($func,$user,$pass);
     if($loggedIn){
-        die(var_dump($loggedIn));
+        $_SESSION["user"]=array(
+            "uname" => $user
+        );
+        $msgMod->setMsg("successfully logged in ".date("Y-m-d H:i:s"),"success");
     }else{
-        die("not logged in");
+        $msgMod->setMsg("wrong user/pass combo","danger");
     }
     header("location: ..");
     

@@ -208,7 +208,8 @@ class db {
         $set = substr($set, 0,-1);
         $wh = substr($wh,0,-4);
         $sql = "update $table set $set $wh";
-        return $sql;
+        $res = $sql;
+        return $res;
     }
     
 }

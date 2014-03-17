@@ -28,6 +28,17 @@ $(function(){
         cpsTick();
     },1000);
     
+    $(".msg > button").on("click",function(){
+       $.post("posts/ajax.php",{ajax:"delmsg",id:$(this).data("id")});
+    });
+    $("#navLogout").on("click",function(){
+        $.post("posts/ajax.php",{ajax:"logout"},function(data){
+            if(data){
+                location.reload();
+            }
+        });
+    });
+    
 });
 
 function init(){
@@ -186,3 +197,4 @@ function statusMessage(msg){
         $(".statusInfo > div[data-x='"+x.getTime()+"']").remove();
     });
 }
+

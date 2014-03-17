@@ -1,6 +1,7 @@
 <?php
 
 include_once 'db.php';
+require_once 'message.php';
 
 /**
  * Description of logMeIn
@@ -14,6 +15,7 @@ class logMeIn {
     
     private $user;
     private $pass;
+    public $msg;
     
     /**
      * 
@@ -26,6 +28,7 @@ class logMeIn {
         $this->db = new db();
         $this->salt = "munsking";
         $this->db->setTable("clicker_users");
+        $this->msg = new message;
         return $this;
     }
     
@@ -39,17 +42,17 @@ class logMeIn {
      * @return function
      */
     
-    public function run($data = array()){
-        if(method_exists($this, $data['submit'])){
-            if($this->$data['submit']($data['uname'],$data['passwd'])){
-                return true;
+    public function run($func,$u,$p){
+        if(method_exists($this, $func)){
+            if($ret = $this->$func($u,$p)){
+                return $ret;
             }else{
                 return false;
             }
         }
     }
     
-    public function logIn($user, $pass){
+    private function logIn($user, $pass){
         $db = $this->db;
         $newPass=$this->hash($user,$pass);
         $sql = $db->select(array("id"))
@@ -60,7 +63,7 @@ class logMeIn {
         if(!$loggedIn){
             return false;
         }
-        echo $db->update(
+        $res = $db->fetchAll($db->update(
             "clicker_users",
             array(
                 "lastLogin" => NULL
@@ -68,11 +71,17 @@ class logMeIn {
             array(
                 "uname" => $user
             )
-        );
+        ));
         return $loggedIn;
     }
     
     private function register($user, $pass){
+        if(count($user) <= 8 || count($user) >= 255){
+            $this->msg->setMsg("username should be 8-255 characters");
+        }
+        if(count($pass)<= 8 || count($pass) >= 255){
+            $this->msg->setMsg("password should be 8-255 characters");
+        }
         $db = $this->db;
         $sql = $db->select()
                   ->where("uname = '$user'");
@@ -82,7 +91,8 @@ class logMeIn {
             $newPass = $this->hash($user,$pass);
             $sql = $db->insert(array(
                 "uname" => $user,
-                "pword" => $newPass
+                "pword" => $newPass,
+                "createdAt" => date("Y-m-d H:i:s")
             ));
             $res = $db->fetchAll($sql);
 //            echo $sql->queryToString();
