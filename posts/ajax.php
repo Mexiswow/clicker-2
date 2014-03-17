@@ -1,8 +1,15 @@
 <?php
 
     require_once '../classes/message.php';
+    require_once '../classes/db.php';
+    require_once '../classes/logMeIn.php';
+    
+    error_reporting(E_ALL);
+    ini_set("display_errors", 0);
     
     $msgMod = new message;
+    $db = new db;
+    $lmi = new logMeIn;
     
     if(session_id() == ''){
         session_start();
@@ -34,4 +41,17 @@
         session_start();
         $msgMod->setMsg("successfully logged out","success");
         echo "logged out";
+    }
+    if($_POST["ajax"]=="save" && isset($_POST["clicks"]) && isset($_POST["cps"])){
+        $clicks = $_POST["clicks"];
+        $cps = $_POST["cps"];
+        $saved = $lmi->save($clicks, $cps);
+        if($saved){
+            echo "Game saved.";
+        }else{
+            echo "Saving error: $clicks, $cps";
+        }
+    }
+    if($_POST["ajax"]=="ses"){
+        var_dump($_SESSION);
     }

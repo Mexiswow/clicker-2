@@ -66,7 +66,8 @@ class logMeIn {
         $res = $db->fetchAll($db->update(
             "clicker_users",
             array(
-                "lastLogin" => NULL
+                "lastLogin" => NULL,
+                "ip" => $_SERVER['REMOTE_ADDR'].(isset($_SERVER['HTTP_X_FORWARDED_FOR'])?" | ".$_SERVER['HTTP_X_FORWARDED_FOR']:"")
             ),
             array(
                 "uname" => $user
@@ -118,6 +119,26 @@ class logMeIn {
         $newpass = md5("$this->salt [-] $user".md5($pass));
 //        echo "pass ".$newpass;
         return $newpass;
+    }
+    
+    public function save($clicks,$cps){
+        $db = $this->db;
+        $sql = $db->update(
+            "clicker_users",
+            array(
+                "clicks" => $clicks,
+                "cps" => $cps
+            ),
+            array(
+                "uname" => $_SESSION["user"]["uname"]
+            )
+        );
+        $res = $db->fetchAll($sql);
+        if(isset($res)){
+            return true;
+        }else{
+            return false;
+        }
     }
     
     

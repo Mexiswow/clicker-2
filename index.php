@@ -106,7 +106,7 @@
                                     <div class="row">
                                         <div class="col-md-12 ">
                                             <div class="clickMe">
-                                                <?=$btc?>
+                                                <img src="images/db2.png" width="250" />
                                             </div>
                                         </div>
                                     </div>

@@ -28,6 +28,10 @@ $(function(){
         cpsTick();
     },1000);
     
+    saver = setInterval(function(){
+        save();
+    },30000);
+    
     $(".msg > button").on("click",function(){
        $.post("posts/ajax.php",{ajax:"delmsg",id:$(this).data("id")});
     });
@@ -62,18 +66,18 @@ function init(){
     $(".curClicks .count").html(clicks);
     $(".curCPS .count").html(cps);
     
-     $(".autoClicker").each(function(){
+    $(".autoClicker").each(function(){
          
-         if(getC("auto"+$(this).attr("data-id"))){
-             $(this).attr("data-cost",getC("auto"+$(this).attr("data-id")));
-         }
-         
-        $(this).find(".cost").html($(this).attr("data-cost"));
-        if($(this).attr("data-cost") <= clicks){
-            $(this).addClass("available");
-        }else{
-            $(this).removeClass("available");
+        if(getC("auto"+$(this).attr("data-id"))){
+            $(this).attr("data-cost",getC("auto"+$(this).attr("data-id")));
         }
+
+       $(this).find(".cost").html($(this).attr("data-cost"));
+       if($(this).attr("data-cost") <= clicks){
+           $(this).addClass("available");
+       }else{
+           $(this).removeClass("available");
+       }
     });
 
     $(".clickMe").on("click",function(e){
@@ -198,3 +202,16 @@ function statusMessage(msg){
     });
 }
 
+function save(){
+    clicks = getC("clicks");
+    cps = getC("cps");
+    $.post("posts/ajax.php",{ajax:"save",clicks:clicks,cps:cps},function(data){
+        if(data){
+            statusMessage(data);
+        }
+    });
+}
+
+function debug(){
+    $.post("posts/ajax.php",{ajax:"ses"});
+}
