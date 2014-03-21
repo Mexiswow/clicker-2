@@ -33,7 +33,7 @@ class db {
      */
     
     public function __construct() {
-        require_once '../includes/0_dbInfo.php';
+        require_once $_SERVER["DOCUMENT_ROOT"].'/clicker/includes/0_dbInfo.php';
         $this->db_host = DB_HOST;
         $this->db_user = DB_USER;
         $this->db_pass = DB_PASS;

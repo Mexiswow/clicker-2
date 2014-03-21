@@ -1,11 +1,10 @@
 <?php
 
-    require_once '../classes/message.php';
-    require_once '../classes/db.php';
-    require_once '../classes/logMeIn.php';
-    
     error_reporting(E_ALL);
-    ini_set("display_errors", 0);
+    ini_set("display_errors", 1);
+    
+    require_once '../classes/inc.php';
+    
     
     $msgMod = new message;
     $db = new db;

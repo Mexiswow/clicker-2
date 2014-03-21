@@ -9,15 +9,13 @@
     $jsFiles = glob("js/*.js");
     $cssFiles = glob("css/*.css");
     $incFiles = glob("includes/*.php");
-    $classFiles = glob("classes/*.php");
     foreach($incFiles as $inc){
         include_once($inc);
     }
-    foreach($classFiles as $class){
-        require_once($class);
-    }
+    require_once 'classes/inc.php';
     
     $msgMod = new message;
+    $items = new items;
 ?>
 <!DOCTYPE html>
 <html>
@@ -127,7 +125,7 @@
                     </div>
                     <div class="col-md-4 autoClickerList">
                         <h3>Autoclickers</h3><hr />
-                        <?foreach($autoItems as $r):?>
+                        <?foreach($items->auto as $r):?>
                         <div class="row spacer autoClicker" data-id="<?=$r['id']?>" data-value="<?=$r['value']?>" data-inc="<?=$r['increase']?>" data-cost="<?=$r['cost']?>">
                             <div class="col-md-12">
                                 <div class="row">
@@ -148,10 +146,34 @@
                                 </div>
                             </div>
                         </div>
-                        <?endforeach;?>
+                        <?
+                        endforeach;?>
                     </div>
                     <div class="col-md-4">
                         <h3>Upgrades</h3><hr />
+                        <?foreach($items->upgr as $r):?>
+                        <div class="row spacer upgrade" data-id="<?=$r['id']?>" data-value="<?=$r['value']?>" data-inc="<?=$r['increase']?>" data-cost="<?=$r['cost']?>">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <span class="name"><?=$r['name']?></span>
+                                    </div>
+                                    <div class="col-md-2">
+
+                                    </div>
+                                    <div class="col-md-4" style="text-align: right;">
+                                        (costs:<span class="cost"><?=$r['cost']?></span>)
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <span class="desc"><?=$r['desc']?></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <?
+                        endforeach;?>
                     </div>
                 </div>
             </div>
