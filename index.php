@@ -83,12 +83,8 @@
             <div class="jumbotron">
                 <div class="container">
                     <div class="row">
-                        <div class="col-md-10">
-                            <h1>bitClicker</h1>
-                            <h3>Welcome to my infiniclicker game</h3>
+                        <div class="col-md-12">
                             <h5><a class="clearData">Clear Data</a></h5>
-                        </div>
-                        <div class="col-md-2">
                         </div>
                     </div>
                 </div>
@@ -126,30 +122,37 @@
                     <div class="col-md-4 autoClickerList">
                         <h3>Autoclickers</h3><hr />
                         <?foreach($items->auto as $r):?>
-                        <div class="row spacer autoClicker" data-id="<?=$r['id']?>" data-value="<?=$r['value']?>" data-inc="<?=$r['increase']?>" data-cost="<?=$r['cost']?>">
-                            <div class="col-md-12">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <span class="name"><?=$r['name']?></span>
-                                    </div>
-                                    <div class="col-md-2">
-
-                                    </div>
-                                    <div class="col-md-4" style="text-align: right;">
-                                        (costs:<span class="cost"><?=$r['cost']?></span>)
-                                    </div>
-                                </div>
-                                <div class="row">
+                        <div class="row spacer">
+                            <div class="col-md-1">
+                                <span class="autoCount" data-id="<?=$r['id']?>"></span>
+                            </div>
+                            <div class="col-md-11">
+                                <div class="row autoClicker" data-id="<?=$r['id']?>" data-value="<?=$r['value']?>" data-inc="<?=$r['increase']?>" data-cost="<?=$r['cost']?>">
                                     <div class="col-md-12">
-                                        <span class="desc"><?=$r['desc']?></span>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <span class="name"><?=$r['name']?></span>
+                                            </div>
+                                            <div class="col-md-2">
+
+                                            </div>
+                                            <div class="col-md-4" style="text-align: right;">
+                                                (costs:<span class="cost"><?=$r['cost']?></span>)
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <span class="desc"><?=$r['desc']?></span>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
+                                </div>  
                             </div>
                         </div>
                         <?
                         endforeach;?>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4 upgradeList">
                         <h3>Upgrades</h3><hr />
                         <?foreach($items->upgr as $r):?>
                         <div class="row spacer upgrade" data-id="<?=$r['id']?>" data-value="<?=$r['value']?>" data-inc="<?=$r['increase']?>" data-cost="<?=$r['cost']?>">
@@ -176,13 +179,6 @@
                         endforeach;?>
                     </div>
                 </div>
-            </div>
-
-
-            <div class="betaFlag">
-                <span class="glyphicon glyphicon-star"></span>
-                <span class="version">BETA</span>
-                <span class="glyphicon glyphicon-star"></span>
             </div>
         </div>
     </body>

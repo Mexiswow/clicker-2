@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <pre>
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;script src="script.js"&gt;&lt;/script&gt;
+        &lt;link href="style.css" rel="stylesheet" /&gt;
+        &lt;title&gt;shop thingie&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;?php
+            require_once 'database.php';
+            //open database connection
+        ?&gt;
+        &lt;table&gt;
+            &lt;?
+                $sql = "select * from table";
+                while(fetch()){
+            ?&gt;
+                &lt;tr&gt;
+                    &lt;td&gt;&lt;?=$feldname0?&gt;&lt;/td&gt;
+                    &lt;td&gt;&lt;?=$feldname1?&gt;&lt;/td&gt;
+                    &lt;td&gt;&lt;?=$feldname2?&gt;&lt;/td&gt;
+                    &lt;td&gt;&lt;a href="edit.php?id=&lt;?=$id?&gt;"&gt;edit row&lt;/a&gt;&lt;/td&gt;
+                    &lt;td&gt;&lt;a href="delete.php?id=&lt;?=$id?&gt;"&gt;delete row&lt;/a&gt;&lt;/td&gt;
+                &lt;/tr&gt;
+            &lt;?
+                }
+            ?&gt;
+                &lt;tr&gt;
+                    &lt;td&gt;&lt;a href="new.php"&gt;new row&lt;/a&gt;&lt;/td&gt;
+                &lt;/tr&gt;
+        &lt;/table&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+
+<select multiple>
+  <option value="volvo">Volvo</option>
+  <option value="saab">Saab</option>
+  <option value="opel">Opel</option>
+  <option value="audi">Audi</option>
+</select>
+
+&lt;select multiple&gt;
+  &lt;option value="volvo"&gt;Volvo&lt;/option&gt;
+  &lt;option value="saab"&gt;Saab&lt;/option&gt;
+  &lt;option value="opel"&gt;Opel&lt;/option&gt;
+  &lt;option value="audi"&gt;Audi&lt;/option&gt;
+&lt;/select&gt;
+        </pre>
+    </body>
+</html>

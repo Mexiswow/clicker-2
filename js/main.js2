@@ -3,6 +3,7 @@ var cps = 0;
 
 $(function(){
     
+    var items;
 //    $(".navbar-form").submit(function(e){
 //        e.preventDefault();
 //        alert("That doesn't work yet.");
@@ -128,13 +129,13 @@ function getCookie(c_name){
 
 function getC(name){
     x = getCookie(name);
-    return parseInt(x);
+    return parseFloat(x);
 }
 
 function addClick(a){
 //    if(!checkWithCookie("clicks") || getCookie("cheater"))
 //        return false;
-    clicks += parseInt(a);
+    clicks += parseFloat(a);
     setCookie("clicks",clicks);
     $(".curClicks .count").html(clicks);
 }
@@ -142,7 +143,7 @@ function addClick(a){
 function addCps(a){
 //    if(!checkWithCookie("cps") || getCookie("cheater"))
 //        return false;
-    cps += parseInt(a);
+    cps += parseFloat(a);
     setCookie("cps",cps);
     $(".curCPS .count").html(cps);
 }
@@ -168,7 +169,7 @@ function cpsTick(){
 //    return true;
 //}
 
-function addAutoClicker(row){
+function oldaddAutoClicker(row){
     cost = row.attr("data-cost");
     val = row.attr("data-value");
     if(cost<=clicks){
@@ -181,6 +182,47 @@ function addAutoClicker(row){
     }else{
         
     }
+}
+
+function addAutoClicker(row){
+    id = row.attr("data-id");
+    console.log(row);
+    
+    $.ajax({
+        type: "post",
+        url: "posts/ajax.php",
+        async: false,
+        data: {
+            ajax: "items",
+            aMethod:"get",
+            id:id
+        }
+    }).done(function(data){
+        items = JSON.parse(data);
+        cost = items.cost;
+        val = row.attr("data-value");
+        if(getCookie("auto"+row.attr("data-id"))){
+            for(i=0;i<getCookie("auto"+row.attr("data-id"));i++){
+                cost *= items.increase;
+            }
+        }
+        if(cost<=clicks){
+            clicks -= cost;
+            newCost = parseInt(cost*row.attr("data-inc"));
+//            setCookie("auto"+row.attr("data-id"),newCost);
+            if(getCookie("auto"+row.attr("data-id"))){
+                setCookie("auto"+row.attr("data-id"),parseInt(getCookie("auto"+row.attr("data-id"))) + 1);
+            }else{
+                setCookie("auto"+row.attr("data-id"),1);
+            }
+            row.attr("data-cost",parseInt(cost*row.attr("data-inc")));
+            row.find(".cost").html(row.attr("data-cost"));
+            addCps(val);
+        }else{
+
+        }
+        console.log(cost);
+    });
 }
 
 function checkAutoClickers(){

@@ -54,3 +54,18 @@
     if($_POST["ajax"]=="ses"){
         var_dump($_SESSION);
     }
+    if($_POST["ajax"]=="items" && isset($_POST["aMethod"])){
+        $items = new items;
+        if($_POST["aMethod"]=="get"){
+            if(isset($_POST["id"])){
+                echo json_encode($items->getById($_POST["id"]));
+                exit;
+            }
+            echo json_encode($items);
+            exit;
+        }
+    }
+    if($_POST["ajax"]=="test"){
+        $itemMod = new items;
+        echo json_encode($itemMod->addUserItem($_POST["userId"],$_POST["itemId"]));
+    }

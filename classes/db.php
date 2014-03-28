@@ -18,6 +18,8 @@ class db {
     private $db_name;
     private $db_tabl;
     
+    private $whereSet;
+    
     private $db;
     
     private $_query;
@@ -136,7 +138,12 @@ class db {
         if(!$this->_query || !$data){
             return false;
         }else{
-            $this->_query .= " where $data";
+            if($this->whereSet){
+                $this->_query .= " and $data";
+            }else{
+                $this->_query .= " where $data";
+            }
+            $this->whereSet = true;
             return $this;
         }
     }
@@ -150,6 +157,7 @@ class db {
      */
     
     public function fetchAll($query = NULL){
+        $this->whereSet = false;
         if(!$this->db_tabl){
             return false;
         }
@@ -171,6 +179,31 @@ class db {
             return $ex->getMessage();
         }
         return $res->fetchAll();
+    }
+    
+    public function fetchRow($query = NULL){
+        $this->whereSet = false;
+        if(!$this->db_tabl){
+            return false;
+        }
+        try {
+            if($query){
+                if(is_a($query, "db")){
+                    $query = $query->queryToString();
+                }
+                $res = $this->db->prepare($query);
+                $res->execute();
+            }else{
+                if($this->_query == ""){
+                    $this->select();
+                }
+                $res = $this->db->prepare($this->_query);
+                $res->execute();
+            }
+        } catch(PDOException $ex) {
+            return $ex->getMessage();
+        }
+        return $res->fetchObject();
     }
     
     /**
@@ -203,12 +236,17 @@ class db {
             $set .= "$c=".($v === null?"null":"'$v'").",";
         }
         foreach($where as $c => $v){
-            $wh .= "where $c like '$v' and";
+            if($this->whereSet){
+                $wh .= "and $c like $v ";
+            }else{
+                $wh .= "where $c like '$v' ";
+            }
+            $this->whereSet = true;
         }
         $set = substr($set, 0,-1);
-        $wh = substr($wh,0,-4);
         $sql = "update $table set $set $wh";
-        return $sql;
+        $this->_query = $sql;
+        return $this;
     }
     
 }

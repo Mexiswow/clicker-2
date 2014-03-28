@@ -23,7 +23,7 @@ class message {
         $_SESSION["msg"][] = array(
             "id" => count($_SESSION["msg"]),
             "msg" => $msg,
-            "type" => $type,
+            "type" => ($type?$type:"info"),
             "disp" => $disp
         );
     }

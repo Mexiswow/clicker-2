@@ -59,7 +59,7 @@ class logMeIn {
                   ->where("uname = '$user' AND pword =  '$newPass'");
         
 //        echo $sql->queryToString();
-        $loggedIn = $db->fetchAll($sql);
+        $loggedIn = $db->fetchRow($sql);
         if(!$loggedIn){
             return false;
         }
@@ -77,11 +77,11 @@ class logMeIn {
     }
     
     private function register($user, $pass){
-        if(count($user) <= 8 || count($user) >= 255){
-            $this->msg->setMsg("username should be 8-255 characters");
+        if(strlen($user) <= 7 || strlen($user) >= 255){
+            $this->msg->setMsg("username should be 8-255 characters","danger");
         }
-        if(count($pass)<= 8 || count($pass) >= 255){
-            $this->msg->setMsg("password should be 8-255 characters");
+        if(strlen($pass)<= 7 || strlen($pass) >= 255){
+            $this->msg->setMsg("password should be 8-255 characters","danger");
         }
         $db = $this->db;
         $sql = $db->select()
@@ -97,7 +97,12 @@ class logMeIn {
             ));
             $res = $db->fetchAll($sql);
 //            echo $sql->queryToString();
-            return $res;
+            if($res){
+                return $this->logIn($user, $pass);
+            }else{
+                $this->msg->setMsg("Couldn't register, please contact the admin 'munsking@gmail.com'","danger");
+                return false;
+            }
         }
     }
     

@@ -20,7 +20,7 @@ if($_POST){
             return false;
         }
     }
-    
+//    var_dump($_POST);
     $loginHandler = new logMeIn();
     $func = htmlentities($_POST["submit"]);
     $user = htmlentities($_POST['uname']);
@@ -28,6 +28,7 @@ if($_POST){
     $loggedIn = $loginHandler->run($func,$user,$pass);
     if($loggedIn){
         $_SESSION["user"]=array(
+            "id" => $loggedIn->id,
             "uname" => $user
         );
         $msgMod->setMsg("successfully logged in ".date("Y-m-d H:i:s"),"success");
